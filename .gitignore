@@ -2,6 +2,9 @@
 # PatchPath — root gitignore
 # ---------------------------------------------------------------------------
 
+# Planning / internal docs
+*.plan.md
+
 # Environment / secrets
 .env
 .env.*
