@@ -10,6 +10,7 @@ Coverage:
     - issues are ranked worst-first
     - run_for_session persists issues and is idempotent
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -121,7 +122,9 @@ def test_empty_input_produces_no_issues():
 
 def test_evidence_is_capped_at_five_items():
     body = "\n".join(f"ModuleNotFoundError: No module named 'pkg{i}'" for i in range(8))
-    [issue] = [i for i in detect(NEUTRAL, one_file(body)) if i["issue_type"] == "missing_python_dependency"]
+    [issue] = [
+        i for i in detect(NEUTRAL, one_file(body)) if i["issue_type"] == "missing_python_dependency"
+    ]
     assert len(issue["evidence"]) == 5
     # Many matches nudge confidence up but never to certainty.
     assert issue["confidence_hint"] < 1
@@ -161,10 +164,7 @@ def test_vercel_rule_does_not_trip_on_unrelated_log():
 
 
 def test_secrets_never_appear_in_evidence():
-    raw = (
-        "DATABASE_URL=postgres://admin:supersecretpw@db:5432/app\n"
-        "KeyError: 'DATABASE_URL'\n"
-    )
+    raw = "DATABASE_URL=postgres://admin:supersecretpw@db:5432/app\n" "KeyError: 'DATABASE_URL'\n"
     redacted = redaction.redact(raw).text
     issues = detect(NEUTRAL, one_file(redacted))
     assert "missing_database_url" in types_of(issues)

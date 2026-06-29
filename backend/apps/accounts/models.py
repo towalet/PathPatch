@@ -3,6 +3,7 @@
 PatchPath authenticates with email + password and exposes UUID identifiers so
 external IDs in URLs are opaque. There is no `username` field.
 """
+
 from __future__ import annotations
 
 import uuid

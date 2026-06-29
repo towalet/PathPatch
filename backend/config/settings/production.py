@@ -4,6 +4,7 @@ Production settings.
 Validates required environment at import time so a misconfigured deploy fails
 fast instead of serving with insecure defaults.
 """
+
 from __future__ import annotations
 
 from django.core.exceptions import ImproperlyConfigured
@@ -16,7 +17,9 @@ DEBUG = False
 # --- Required environment ---------------------------------------------------
 SECRET_KEY = env.str("DJANGO_SECRET_KEY", default="")
 if not SECRET_KEY or SECRET_KEY == "insecure-dev-key-change-me":
-    raise ImproperlyConfigured("DJANGO_SECRET_KEY must be set to a strong unique value in production.")
+    raise ImproperlyConfigured(
+        "DJANGO_SECRET_KEY must be set to a strong unique value in production."
+    )
 
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[])
 if not ALLOWED_HOSTS:

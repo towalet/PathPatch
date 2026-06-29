@@ -6,6 +6,7 @@ fields (project name/metadata, a session's error summary) while reads expose
 computed counts, nested evidence, and report context. Summary serializers keep
 list/dashboard payloads lean; detail serializers carry the full document.
 """
+
 from __future__ import annotations
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -64,9 +65,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         if self.instance is not None:
             clashes = clashes.exclude(pk=self.instance.pk)
         if clashes.exists():
-            raise serializers.ValidationError(
-                "You already have a project with this name."
-            )
+            raise serializers.ValidationError("You already have a project with this name.")
         return name
 
 
@@ -116,12 +115,8 @@ class DiagnosisReportSummarySerializer(serializers.ModelSerializer):
     """Lightweight report card for lists, dashboards, and session detail."""
 
     session_id = serializers.UUIDField(source="debug_session.id", read_only=True)
-    project_id = serializers.UUIDField(
-        source="debug_session.project.id", read_only=True
-    )
-    project_name = serializers.CharField(
-        source="debug_session.project.name", read_only=True
-    )
+    project_id = serializers.UUIDField(source="debug_session.project.id", read_only=True)
+    project_name = serializers.CharField(source="debug_session.project.name", read_only=True)
 
     class Meta:
         model = DiagnosisReport

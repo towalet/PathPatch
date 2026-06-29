@@ -6,6 +6,7 @@ The AI seam is always faked — the suite never touches the network. Coverage:
 schema validation, retry-on-bad-output, transport-error retry, confidence and
 missing-information guardrails, the failed-session path, and the analyze view.
 """
+
 from __future__ import annotations
 
 import json
@@ -164,9 +165,7 @@ class TestRunAnalysis:
 
     def test_retries_on_schema_validation_error(self):
         session = make_session()
-        client = FakeAIClient(
-            [ai_result(payload(confidence_score=2.0)), ai_result(payload())]
-        )
+        client = FakeAIClient([ai_result(payload(confidence_score=2.0)), ai_result(payload())])
 
         report_generator.run_analysis(session, client=client)
         assert client.calls == 2
@@ -174,9 +173,7 @@ class TestRunAnalysis:
     def test_retries_on_unknown_evidence_source(self):
         session = make_session()
         ghost = payload(
-            evidence=[
-                {"source": "ghost.log", "line_or_section": "line 9", "reason": "made up"}
-            ]
+            evidence=[{"source": "ghost.log", "line_or_section": "line 9", "reason": "made up"}]
         )
         client = FakeAIClient([ai_result(ghost), ai_result(payload())])
 

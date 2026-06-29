@@ -11,6 +11,7 @@ Expected model JSON (keys exactly): root_cause, confidence_score, severity,
 detected_stack, detected_cloud_provider, explanation, evidence[], recommended_fix,
 commands_to_run[], verification_checklist[], missing_information[], possible_risks[].
 """
+
 from __future__ import annotations
 
 from typing import Literal

@@ -9,6 +9,7 @@ the object-level backstop required by docs/AGENT_PLAN.md §9.
 Every diagnostics model exposes an ``owner_id`` property that resolves the owning
 user through the Project.user chain, so the check is a single attribute compare.
 """
+
 from __future__ import annotations
 
 from rest_framework import permissions

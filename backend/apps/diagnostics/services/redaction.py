@@ -11,6 +11,7 @@ or partially mangle them. Variable names are preserved where useful, e.g.
 
     DATABASE_URL=postgres://u:p@host/db   ->   DATABASE_URL=[REDACTED_DATABASE_URL]
 """
+
 from __future__ import annotations
 
 import re
@@ -27,7 +28,9 @@ _SENSITIVE_KEY = (
 _ENV_ASSIGNMENT = re.compile(
     r"""
     ^(?P<prefix>\s*(?:export\s+)?)
-    (?P<key>""" + _SENSITIVE_KEY + r""")
+    (?P<key>"""
+    + _SENSITIVE_KEY
+    + r""")
     (?P<sep>\s*[:=]\s*)
     (?P<quote>["']?)
     (?P<value>[^\r\n]*?)

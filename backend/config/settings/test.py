@@ -4,6 +4,7 @@ Fast password hashing, an in-process email backend, and a deterministic AI
 configuration so tests never reach the network. The AI client is always mocked
 in tests (see apps/diagnostics/tests).
 """
+
 from __future__ import annotations
 
 from .base import *  # noqa: F401,F403

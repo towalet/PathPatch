@@ -1,4 +1,5 @@
 """Authentication endpoints: register, login, refresh, me."""
+
 from __future__ import annotations
 
 from rest_framework import status

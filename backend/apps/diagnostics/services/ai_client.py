@@ -7,6 +7,7 @@ and guardrails all live in :mod:`report_generator`, so the model call is a singl
 seam the test-suite mocks (the suite never reaches the network — see
 ``config/settings/test.py``).
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass

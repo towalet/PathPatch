@@ -1,4 +1,5 @@
 """Root URL configuration for PatchPath."""
+
 from __future__ import annotations
 
 from django.contrib import admin

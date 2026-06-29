@@ -26,6 +26,7 @@ cors_error, django_staticfiles_issue, postgres_connection_refused,
 docker_build_failed, wrong_start_command, collectstatic_failed,
 vercel_build_command_issue, render_railway_env_mismatch.
 """
+
 from __future__ import annotations
 
 import re
@@ -106,8 +107,7 @@ RULES: tuple[Rule, ...] = (
         issue_type="missing_python_dependency",
         severity=Severity.HIGH,
         confidence=0.8,
-        reason="A Python import failed — the package is most likely missing "
-        "from requirements.",
+        reason="A Python import failed — the package is most likely missing " "from requirements.",
         patterns=_compile(
             r"\bModuleNotFoundError\b",
             r"No module named ['\"]?[\w.]+",
@@ -221,8 +221,7 @@ RULES: tuple[Rule, ...] = (
         issue_type="vercel_build_command_issue",
         severity=Severity.MEDIUM,
         confidence=0.6,
-        reason="The Vercel build/output configuration looks wrong for this "
-        "project.",
+        reason="The Vercel build/output configuration looks wrong for this " "project.",
         context=("vercel",),
         patterns=_compile(
             r"No Output Directory named",

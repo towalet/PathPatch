@@ -7,6 +7,7 @@ already surfaced, plus a few error-looking lines no rule matched, plus hints
 about context that is *missing*. The whole bundle is trimmed to stay under
 ``PATCHPATH_EVIDENCE_CHAR_BUDGET`` so a giant log can never blow the prompt.
 """
+
 from __future__ import annotations
 
 import json

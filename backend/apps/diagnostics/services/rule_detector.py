@@ -16,6 +16,7 @@ Evidence discipline (per §10):
     - issues ranked worst-first: severity, then confidence_hint
     - no match -> no issue (the detector never fabricates)
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -127,9 +128,7 @@ def detect(project: dict, files: list[dict]) -> list[dict]:
         if not evidence:
             continue
         # Repeated matches modestly raise the hint, never to certainty.
-        confidence = min(
-            rule.confidence + 0.03 * (match_count - 1), _MAX_CONFIDENCE_HINT
-        )
+        confidence = min(rule.confidence + 0.03 * (match_count - 1), _MAX_CONFIDENCE_HINT)
         issues.append(
             {
                 "issue_type": rule.issue_type,

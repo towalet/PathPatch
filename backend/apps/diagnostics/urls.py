@@ -1,4 +1,5 @@
 """Diagnostics URL routes, mounted under /api/ (see docs/AGENT_PLAN.md §8)."""
+
 from __future__ import annotations
 
 from django.urls import path

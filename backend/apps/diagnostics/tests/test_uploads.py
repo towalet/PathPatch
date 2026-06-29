@@ -6,6 +6,7 @@ Covers docs/AGENT_PLAN.md §9 exit criteria:
     - duplicates are handled predictably
     - secrets never reach the database
 """
+
 from __future__ import annotations
 
 import pytest

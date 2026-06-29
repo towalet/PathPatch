@@ -13,6 +13,7 @@ On parse/validation/transport failure the call is retried once (configurable via
 every attempt fails the session is marked ``failed`` with a reason, while its
 uploaded files and detected issues are preserved for the user to inspect.
 """
+
 from __future__ import annotations
 
 import json
@@ -161,9 +162,7 @@ def _persist_report(
         completion_tokens=ai.completion_tokens,
     )
     with transaction.atomic():
-        report, _ = DiagnosisReport.objects.update_or_create(
-            debug_session=session, defaults=fields
-        )
+        report, _ = DiagnosisReport.objects.update_or_create(debug_session=session, defaults=fields)
         session.status = SessionStatus.COMPLETED
         session.failure_reason = ""
         session.analysis_completed_at = timezone.now()
@@ -177,9 +176,7 @@ def _mark_failed(session: DebugSession, reason: str) -> None:
     session.status = SessionStatus.FAILED
     session.failure_reason = reason[:500]
     session.analysis_completed_at = timezone.now()
-    session.save(
-        update_fields=["status", "failure_reason", "analysis_completed_at", "updated_at"]
-    )
+    session.save(update_fields=["status", "failure_reason", "analysis_completed_at", "updated_at"])
 
 
 def run_analysis(session: DebugSession, *, client: AIClient | None = None) -> DiagnosisReport:
@@ -193,9 +190,7 @@ def run_analysis(session: DebugSession, *, client: AIClient | None = None) -> Di
     session.status = SessionStatus.ANALYZING
     session.analysis_started_at = timezone.now()
     session.failure_reason = ""
-    session.save(
-        update_fields=["status", "analysis_started_at", "failure_reason", "updated_at"]
-    )
+    session.save(update_fields=["status", "analysis_started_at", "failure_reason", "updated_at"])
 
     # Deterministic layer first — persisted regardless of what the model does.
     detected = rule_detector.run_for_session(session)

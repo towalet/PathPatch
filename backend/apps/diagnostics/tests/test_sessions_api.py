@@ -5,6 +5,7 @@ Focus areas (docs/AGENT_PLAN.md §8, §9, §17):
     - every read/write is scoped to the owner (foreign objects → 404)
     - response payloads carry the contract fields the frontend depends on
 """
+
 from __future__ import annotations
 
 import pytest
@@ -35,9 +36,7 @@ def project_detail_url(project_id):
 
 
 def project_sessions_url(project_id):
-    return reverse(
-        "api:diagnostics:project-session-list", kwargs={"project_id": project_id}
-    )
+    return reverse("api:diagnostics:project-session-list", kwargs={"project_id": project_id})
 
 
 def session_detail_url(session_id):
@@ -101,8 +100,7 @@ class TestProjects:
     def test_detail_foreign_project_returns_404(self, auth_client, other_user):
         project = ProjectFactory(user=other_user)
         assert (
-            auth_client.get(project_detail_url(project.id)).status_code
-            == status.HTTP_404_NOT_FOUND
+            auth_client.get(project_detail_url(project.id)).status_code == status.HTTP_404_NOT_FOUND
         )
 
 
@@ -162,8 +160,7 @@ class TestSessions:
     def test_foreign_session_returns_404(self, auth_client, other_user):
         session = DebugSessionFactory(project__user=other_user)
         assert (
-            auth_client.get(session_detail_url(session.id)).status_code
-            == status.HTTP_404_NOT_FOUND
+            auth_client.get(session_detail_url(session.id)).status_code == status.HTTP_404_NOT_FOUND
         )
 
 
@@ -183,8 +180,7 @@ class TestReports:
     def test_foreign_report_returns_404(self, auth_client, other_user):
         report = DiagnosisReportFactory(debug_session__project__user=other_user)
         assert (
-            auth_client.get(report_detail_url(report.id)).status_code
-            == status.HTTP_404_NOT_FOUND
+            auth_client.get(report_detail_url(report.id)).status_code == status.HTTP_404_NOT_FOUND
         )
 
 
@@ -201,9 +197,7 @@ class TestDashboard:
 
         # Another user's data must not leak into the totals.
         ProjectFactory(user=other_user)
-        DiagnosisReportFactory(
-            debug_session__project__user=other_user, severity=Severity.HIGH
-        )
+        DiagnosisReportFactory(debug_session__project__user=other_user, severity=Severity.HIGH)
 
         resp = auth_client.get(DASHBOARD)
         assert resp.status_code == status.HTTP_200_OK

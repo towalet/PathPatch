@@ -4,6 +4,7 @@ The recruiter demo depends on `manage.py seed_demo` creating a complete,
 offline-safe diagnosis. This test keeps the command idempotent and verifies the
 objects needed by the UI are present.
 """
+
 from __future__ import annotations
 
 import pytest

@@ -6,6 +6,7 @@ ownership-scoped fetches — to these functions. Every selector takes the acting
 ``user`` and scopes through the ownership chain, so callers cannot accidentally
 read across tenants. Write-side business logic lives in ``services/`` instead.
 """
+
 from __future__ import annotations
 
 from django.db.models import Count, Q
@@ -28,9 +29,7 @@ def projects_for_user(user):
     Ordering is explicit (not just Meta.ordering) so paginated list responses
     stay deterministic even though the aggregate annotation adds a GROUP BY.
     """
-    return (
-        Project.objects.for_user(user).with_session_stats().order_by("-created_at")
-    )
+    return Project.objects.for_user(user).with_session_stats().order_by("-created_at")
 
 
 def project_sessions(user, project: Project):
@@ -54,12 +53,12 @@ def dashboard_summary(user) -> dict:
     )
 
     recent_sessions = list(
-        DebugSession.objects.for_user(user)
-        .select_related("project", "report")[:RECENT_LIMIT]
+        DebugSession.objects.for_user(user).select_related("project", "report")[:RECENT_LIMIT]
     )
     recent_reports = list(
-        DiagnosisReport.objects.for_user(user)
-        .select_related("debug_session__project")[:RECENT_LIMIT]
+        DiagnosisReport.objects.for_user(user).select_related("debug_session__project")[
+            :RECENT_LIMIT
+        ]
     )
 
     return {

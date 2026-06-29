@@ -17,6 +17,7 @@ Conventions:
     - Read access is funnelled through ``for_user()`` queryset methods so views and
       selectors cannot accidentally leak cross-tenant rows.
 """
+
 from __future__ import annotations
 
 import uuid
@@ -252,16 +253,11 @@ class DetectedIssueQuerySet(models.QuerySet):
     def by_priority(self) -> DetectedIssueQuerySet:
         """Order worst-first: severity rank, then confidence hint."""
         ranking = models.Case(
-            *(
-                models.When(severity=value, then=rank)
-                for value, rank in _SEVERITY_RANK.items()
-            ),
+            *(models.When(severity=value, then=rank) for value, rank in _SEVERITY_RANK.items()),
             default=99,
             output_field=models.IntegerField(),
         )
-        return self.alias(_severity_rank=ranking).order_by(
-            "_severity_rank", "-confidence_hint"
-        )
+        return self.alias(_severity_rank=ranking).order_by("_severity_rank", "-confidence_hint")
 
 
 class DetectedIssue(UUIDModel):

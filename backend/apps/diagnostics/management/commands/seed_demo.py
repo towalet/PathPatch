@@ -7,6 +7,7 @@ uploaded evidence, deterministic rule matches, and a completed diagnosis report
 without calling the AI service. Fresh clones stay demoable when OPENAI_API_KEY is
 unset.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -23,7 +24,9 @@ from apps.diagnostics.services import file_intake, rule_detector
 DEMO_EMAIL = "demo@patchpath.dev"
 DEMO_PASSWORD = "PatchPathDemo123!"
 DEMO_PROJECT_NAME = "Django Render API"
-DEMO_ERROR_SUMMARY = "Render deployment exits during Django startup before the service binds to a port."
+DEMO_ERROR_SUMMARY = (
+    "Render deployment exits during Django startup before the service binds to a port."
+)
 DEMO_FILES = [
     "render-django-database-url.log",
     "env.example.txt",
@@ -39,9 +42,7 @@ def _read_demo_files() -> list[tuple[str, bytes]]:
     samples = _samples_dir()
     missing = [name for name in DEMO_FILES if not (samples / name).exists()]
     if missing:
-        raise FileNotFoundError(
-            f"Missing demo sample file(s): {', '.join(missing)} in {samples}"
-        )
+        raise FileNotFoundError(f"Missing demo sample file(s): {', '.join(missing)} in {samples}")
     return [(name, (samples / name).read_bytes()) for name in DEMO_FILES]
 
 

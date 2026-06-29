@@ -13,6 +13,7 @@ in ``selectors``; write-side analysis logic will live in ``services``.
     GET  /api/sessions/{session_id}/
     GET  /api/reports/{report_id}/
 """
+
 from __future__ import annotations
 
 from django.shortcuts import get_object_or_404
@@ -87,10 +88,7 @@ class ProjectSessionListCreateView(generics.ListCreateAPIView):
         return self._project
 
     def get_queryset(self):
-        return (
-            self.get_project()
-            .sessions.select_related("project", "report")
-        )
+        return self.get_project().sessions.select_related("project", "report")
 
     def create(self, request: Request, *args, **kwargs) -> Response:
         write = self.get_serializer(data=request.data)

@@ -1,4 +1,5 @@
 """Model-level tests: constraints, ownership scoping, and queryset helpers."""
+
 from __future__ import annotations
 
 import pytest
@@ -43,9 +44,7 @@ class TestProjectConstraints:
     def test_with_session_stats_annotations(self, user):
         project = ProjectFactory(user=user)
         DebugSessionFactory.create_batch(2, project=project)
-        annotated = (
-            Project.objects.for_user(user).with_session_stats().get(pk=project.pk)
-        )
+        annotated = Project.objects.for_user(user).with_session_stats().get(pk=project.pk)
         assert annotated.session_count == 2
         assert annotated.latest_session_at is not None
 
@@ -98,9 +97,7 @@ class TestDetectedIssue:
         medium = DetectedIssueFactory(
             debug_session=session, severity=Severity.MEDIUM, confidence_hint=0.5
         )
-        ordered = list(
-            DetectedIssue.objects.filter(debug_session=session).by_priority()
-        )
+        ordered = list(DetectedIssue.objects.filter(debug_session=session).by_priority())
         assert ordered == [high, medium, low]
 
 

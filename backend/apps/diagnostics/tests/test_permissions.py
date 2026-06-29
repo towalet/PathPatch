@@ -3,6 +3,7 @@
 End-to-end ownership scoping (foreign objects → 404) is covered in
 test_sessions_api.py; here we exercise the permission in isolation.
 """
+
 from __future__ import annotations
 
 import pytest

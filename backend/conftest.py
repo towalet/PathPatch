@@ -1,4 +1,5 @@
 """Shared pytest fixtures for the PatchPath backend test suite."""
+
 from __future__ import annotations
 
 import pytest

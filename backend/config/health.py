@@ -1,4 +1,5 @@
 """Liveness/readiness endpoint used by Docker and hosting platforms."""
+
 from __future__ import annotations
 
 from django.db import connection

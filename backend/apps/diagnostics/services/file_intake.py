@@ -10,6 +10,7 @@ Partial success is intentional: each item succeeds or fails independently, and
 the caller receives both the stored files and per-item errors. Only redacted
 content is ever written to the database.
 """
+
 from __future__ import annotations
 
 import hashlib

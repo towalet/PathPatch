@@ -5,6 +5,7 @@ Each factory wires its own ownership chain via ``SubFactory`` so a single
 ``DiagnosisReportFactory()`` call produces a full user → project → session →
 report graph. JSON fields use ``LazyFunction`` to avoid shared mutable defaults.
 """
+
 from __future__ import annotations
 
 import factory
@@ -113,8 +114,6 @@ class DiagnosisReportFactory(factory.django.DjangoModelFactory):
     verification_checklist_json = factory.LazyFunction(
         lambda: ["Confirm the service boots without a KeyError."]
     )
-    missing_information_json = factory.LazyFunction(
-        lambda: ["settings.py was not uploaded."]
-    )
+    missing_information_json = factory.LazyFunction(lambda: ["settings.py was not uploaded."])
     possible_risks_json = factory.LazyFunction(list)
     model_name = "test-model"

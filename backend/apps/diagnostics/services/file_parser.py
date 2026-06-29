@@ -7,6 +7,7 @@ crafted ``../../etc/passwd`` name can never escape its basename. Size limits and
 the duplicate/budget logic live one layer up in ``file_intake``; this module is
 the pure, side-effect-free validator + classifier.
 """
+
 from __future__ import annotations
 
 import os
@@ -90,15 +91,11 @@ def parse_upload(filename: str, raw: bytes, *, max_bytes: int) -> ParsedFile:
 
     file_type = classify(safe_name)
     if file_type is None:
-        raise FileValidationError(
-            f"'{safe_name}' is not a supported text file type."
-        )
+        raise FileValidationError(f"'{safe_name}' is not a supported text file type.")
 
     if len(raw) > max_bytes:
         limit_mb = max_bytes / (1024 * 1024)
-        raise FileValidationError(
-            f"'{safe_name}' exceeds the {limit_mb:.0f} MB per-file limit."
-        )
+        raise FileValidationError(f"'{safe_name}' exceeds the {limit_mb:.0f} MB per-file limit.")
 
     # Binary sniff: a NUL byte is the strongest signal of non-text content.
     if b"\x00" in raw:
@@ -107,8 +104,6 @@ def parse_upload(filename: str, raw: bytes, *, max_bytes: int) -> ParsedFile:
     try:
         text = raw.decode("utf-8")
     except UnicodeDecodeError as exc:
-        raise FileValidationError(
-            f"'{safe_name}' is not valid UTF-8 text."
-        ) from exc
+        raise FileValidationError(f"'{safe_name}' is not valid UTF-8 text.") from exc
 
     return ParsedFile(filename=safe_name, file_type=file_type, text=text)

@@ -1,4 +1,5 @@
 """Serializers for registration, login, and the current-user endpoint."""
+
 from __future__ import annotations
 
 from django.contrib.auth import authenticate, get_user_model

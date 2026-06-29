@@ -4,6 +4,7 @@ Read-mostly admin: the analysis pipeline owns writes, so admin is tuned for
 inspection (list filters, search, raw-id FKs, collapsed read-only timestamps)
 rather than data entry.
 """
+
 from __future__ import annotations
 
 from django.contrib import admin
@@ -39,7 +40,14 @@ class DebugSessionAdmin(admin.ModelAdmin):
 
 @admin.register(UploadedFile)
 class UploadedFileAdmin(admin.ModelAdmin):
-    list_display = ("filename", "file_type", "debug_session", "size_bytes", "redaction_count", "uploaded_at")
+    list_display = (
+        "filename",
+        "file_type",
+        "debug_session",
+        "size_bytes",
+        "redaction_count",
+        "uploaded_at",
+    )
     list_filter = ("file_type", "uploaded_at")
     search_fields = ("filename", "debug_session__id")
     raw_id_fields = ("debug_session",)
@@ -57,7 +65,14 @@ class DetectedIssueAdmin(admin.ModelAdmin):
 
 @admin.register(DiagnosisReport)
 class DiagnosisReportAdmin(admin.ModelAdmin):
-    list_display = ("id", "debug_session", "severity", "confidence_score", "model_name", "created_at")
+    list_display = (
+        "id",
+        "debug_session",
+        "severity",
+        "confidence_score",
+        "model_name",
+        "created_at",
+    )
     list_filter = ("severity", "created_at")
     search_fields = ("root_cause", "debug_session__id")
     raw_id_fields = ("debug_session",)
